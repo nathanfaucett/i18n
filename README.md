@@ -6,7 +6,7 @@ i18n for the browser and node.js
 
 ```javacript
 
-var i18n = require("../src/index");
+var i18n = require("i18n");
 
 
 i18n.set("en", {
