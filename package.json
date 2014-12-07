@@ -1,0 +1,27 @@
+{
+  "name": "i18n",
+  "version": "0.0.1",
+  "description": "i18n for the browser and node.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathanfaucett/i18n.git"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "i18n",
+    "i18n.js"
+  ],
+  "author": "Nathan Faucett",
+  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-jsbeautifier": ""
+  },
+  "dependencies": {
+    "type": "nathanfaucett/type",
+    "utils": "nathanfaucett/utils"
+  }
+}
+
