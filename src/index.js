@@ -76,12 +76,17 @@ function translate(key, locale, translations, args) {
 }
 
 function slice(array, offset) {
-    var result = [],
-        i = (offset || 0) - 1,
-        length = array.length - 1,
-        j = 0;
+    var length, i, il, result, j;
 
-    while (i++ < length) {
+    offset = offset || 0;
+
+    length = array.length;
+    i = offset - 1;
+    il = length - 1;
+    result = new Array(length - offset);
+    j = 0;
+
+    while (i++ < il) {
         result[j++] = array[i];
     }
 
