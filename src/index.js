@@ -58,7 +58,7 @@ function translate(locale, key, translations, args) {
         if (type.isObject(value)) {
             value = value[key];
 
-            if (value === undefined) {
+            if (value == null) {
                 return "--" + origKey + "--";
             }
         } else {
