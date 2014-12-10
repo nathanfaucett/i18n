@@ -16,6 +16,6 @@ global.test = function test() {
     console.timeEnd("i18n");
 };
 
-console.log(i18n("home.header.date", "en", new Date()));
-console.log(i18n("home.header.date.missing", "en"));
-console.log(i18n("home.missing", "en"));
+console.log(i18n("en", "home.header.date", new Date()));
+console.log(i18n("en", "home.header.date.missing"));
+console.log(i18n("en", "home.missing"));

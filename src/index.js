@@ -8,20 +8,17 @@ var translationCache = {};
 module.exports = i18n;
 
 
-function i18n(key, locale) {
-    var translations;
-
-    if (!type.isString(key)) {
-        throw new TypeError("i18n(key[, locale]) key must be a String");
-    }
-
-    translations = i18n.get(locale);
+function i18n(locale, key) {
+    var translations = i18n.get(locale);
 
     if (translations === null) {
         throw new Error("i18n(key[, locale]) no translations for " + locale + " locale");
     }
+    if (!type.isString(key)) {
+        throw new TypeError("i18n(key[, locale]) key must be a String");
+    }
 
-    return translate(key, locale, translations, slice(arguments, 2));
+    return translate(locale, key, translations, slice(arguments, 2));
 }
 
 i18n.get = function(locale) {
@@ -47,8 +44,9 @@ i18n.add = function(locale, object) {
     utils.mixin(translations, object);
 };
 
-function translate(key, locale, translations, args) {
-    var keys = key.split("."),
+function translate(locale, key, translations, args) {
+    var origKey = key,
+        keys = key.split("."),
         length = keys.length - 1,
         i = 0,
         value = translations[keys[i]];
@@ -61,15 +59,15 @@ function translate(key, locale, translations, args) {
             value = value[key];
 
             if (value === undefined) {
-                throw new Error("i18n(key[, locale]) missing translations for " + locale + " locale, key " + keys.join("."));
+                return "--" + origKey + "--";
             }
         } else {
-            throw new Error("i18n(key[, locale]) missing translations for " + locale + " locale, key " + keys.join("."));
+            return "--" + origKey + "--";
         }
     }
 
-    if (type.isObject(value)) {
-        throw new TypeError("i18n(key[, locale]) translations for " + locale + " locale, key " + keys.join(".") + " is not a primitive");
+    if (value == null || type.isObject(value)) {
+        return "--" + origKey + "--";
     }
 
     return args.length !== 0 ? utils.formatArgs(value, args) : value;

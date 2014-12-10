@@ -24,8 +24,8 @@ i18n.add("en", {
     }
 })
 
-console.log(i18n("home.header.date", "en", new Date()));
-console.log(i18n("home.header.date.missing", "en")); // will throw an error
-console.log(i18n("home.missing", "en")); // will throw an error
+console.log(i18n("en", "home.header.date", new Date()));
+console.log(i18n("en", "home.header.date.missing")); // will throw an error
+console.log(i18n("en", "home.missing")); // will throw an error
 
 ```
