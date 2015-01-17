@@ -1,5 +1,8 @@
-var type = require("type"),
-    utils = require("utils");
+var isString = require("is_string"),
+    isObject = require("is_object"),
+    format = require("format"),
+    fastSlice = require("fast_slice"),
+    mixin = require("mixin");
 
 
 var translationCache = {};
@@ -14,11 +17,11 @@ function i18n(locale, key) {
     if (translations === null) {
         throw new Error("i18n(key[, locale]) no translations for " + locale + " locale");
     }
-    if (!type.isString(key)) {
+    if (!isString(key)) {
         throw new TypeError("i18n(key[, locale]) key must be a String");
     }
 
-    return translate(locale, key, translations, slice(arguments, 2));
+    return translate(locale, key, translations, fastSlice(arguments, 2));
 }
 
 i18n.get = function(locale) {
@@ -27,7 +30,7 @@ i18n.get = function(locale) {
 };
 
 i18n.set = function(locale, object) {
-    if (!type.isHash(object)) {
+    if (!isObject(object)) {
         throw new TypeError("i18n.set(locale, object) object must be an Object");
     }
 
@@ -37,11 +40,11 @@ i18n.set = function(locale, object) {
 i18n.add = function(locale, object) {
     var translations = translationCache[locale] || (translationCache[locale] = {});
 
-    if (!type.isHash(object)) {
+    if (!isObject(object)) {
         throw new TypeError("i18n.add(locale, object) object must be an Object");
     }
 
-    utils.mixin(translations, object);
+    mixin(translations, object);
 };
 
 function translate(locale, key, translations, args) {
@@ -55,7 +58,7 @@ function translate(locale, key, translations, args) {
     while (i++ < length) {
         key = keys[i];
 
-        if (type.isObject(value)) {
+        if (isObject(value)) {
             value = value[key];
 
             if (value == null) {
@@ -66,27 +69,9 @@ function translate(locale, key, translations, args) {
         }
     }
 
-    if (value == null || type.isObject(value)) {
+    if (value == null || isObject(value)) {
         return "--" + origKey + "--";
     }
 
-    return args.length !== 0 ? utils.formatArgs(value, args) : value;
-}
-
-function slice(array, offset) {
-    var length, i, il, result, j;
-
-    offset = offset || 0;
-
-    length = array.length;
-    i = offset - 1;
-    il = length - 1;
-    result = new Array(length - offset);
-    j = 0;
-
-    while (i++ < il) {
-        result[j++] = array[i];
-    }
-
-    return result;
+    return args.length !== 0 ? format.args(value, args) : value;
 }
