@@ -21,8 +21,21 @@ function i18n(locale, key) {
         throw new TypeError("i18n(key[, locale]) key must be a String");
     }
 
-    return translate(locale, key, translations, fastSlice(arguments, 2));
+    if (i18n.flatMode === true) {
+        return translateFlat(key, translations, fastSlice(arguments, 2));
+    } else {
+        return translate(key, translations, fastSlice(arguments, 2));
+    }
 }
+
+i18n.flatMode = false;
+i18n.throwMissingError = false;
+
+i18n.reset = function() {
+    translationCache = {};
+    i18n.flatMode = false;
+    i18n.throwMissingError = false;
+};
 
 i18n.get = function(locale) {
 
@@ -47,7 +60,15 @@ i18n.add = function(locale, object) {
     mixin(translations, object);
 };
 
-function translate(locale, key, translations, args) {
+function missingTranslation(key) {
+    if (i18n.throwMissingError) {
+        throw new Error("i18n(locale, key) missing translation for key " + key);
+    } else {
+        return "--" + key + "--";
+    }
+}
+
+function translate(key, translations, args) {
     var origKey = key,
         keys = key.split("."),
         length = keys.length - 1,
@@ -62,15 +83,25 @@ function translate(locale, key, translations, args) {
             value = value[key];
 
             if (value == null) {
-                return "--" + origKey + "--";
+                return missingTranslation(origKey);
             }
         } else {
-            return "--" + origKey + "--";
+            return missingTranslation(origKey);
         }
     }
 
     if (value == null || isObject(value)) {
-        return "--" + origKey + "--";
+        return missingTranslation(origKey);
+    }
+
+    return args.length !== 0 ? format.args(value, args) : value;
+}
+
+function translateFlat(key, translations, args) {
+    var value = translations[key];
+
+    if (value == null || isObject(value)) {
+        return missingTranslation(origKey);
     }
 
     return args.length !== 0 ? format.args(value, args) : value;
