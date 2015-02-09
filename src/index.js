@@ -5,7 +5,9 @@ var isString = require("is_string"),
     mixin = require("mixin");
 
 
-var translationCache = {};
+var translationCache = {},
+    flatMode = false,
+    throwMissingError = false;
 
 
 module.exports = i18n;
@@ -21,24 +23,28 @@ function i18n(locale, key) {
         throw new TypeError("i18n(key[, locale]) key must be a String");
     }
 
-    if (i18n.flatMode === true) {
+    if (flatMode === true) {
         return translateFlat(key, translations, fastSlice(arguments, 2));
     } else {
         return translate(key, translations, fastSlice(arguments, 2));
     }
 }
 
-i18n.flatMode = false;
-i18n.throwMissingError = false;
+i18n.setFlatMode = function(value) {
+    flatMode = !!value;
+};
+
+i18n.throwMissingError = function(value) {
+    throwMissingError = !!value;
+};
 
 i18n.reset = function() {
     translationCache = {};
-    i18n.flatMode = false;
-    i18n.throwMissingError = false;
+    flatMode = false;
+    throwMissingError = false;
 };
 
 i18n.get = function(locale) {
-
     return translationCache[locale] || null;
 };
 
@@ -61,7 +67,7 @@ i18n.add = function(locale, object) {
 };
 
 function missingTranslation(key) {
-    if (i18n.throwMissingError) {
+    if (throwMissingError) {
         throw new Error("i18n(locale, key) missing translation for key " + key);
     } else {
         return "--" + key + "--";
