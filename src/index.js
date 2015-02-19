@@ -107,7 +107,7 @@ function translateFlat(key, translations, args) {
     var value = translations[key];
 
     if (value == null || isObject(value)) {
-        return missingTranslation(origKey);
+        return missingTranslation(key);
     }
 
     return args.length !== 0 ? format.args(value, args) : value;
