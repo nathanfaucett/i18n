@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "is_string": "nathanfaucett/is_string",
+    "is_array": "nathanfaucett/is_array",
     "is_object": "nathanfaucett/is_object",
     "format": "nathanfaucett/format",
     "fast_slice": "nathanfaucett/fast_slice",

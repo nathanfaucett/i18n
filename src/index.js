@@ -1,4 +1,5 @@
-var isString = require("is_string"),
+var isArray = require("is_array"),
+    isString = require("is_string"),
     isObject = require("is_object"),
     format = require("format"),
     fastSlice = require("fast_slice"),
@@ -26,6 +27,8 @@ i18n.translate = function(locale, key, args) {
     if (!isString(key)) {
         throw new TypeError("i18n(key[, locale[, ...args]]) key must be a String");
     }
+
+    args = isArray(args) ? args : [];
 
     if (flatMode === true) {
         return translateFlat(key, translations, args);
