@@ -14,21 +14,25 @@ module.exports = i18n;
 
 
 function i18n(locale, key) {
+    return i18n.translate(locale, key, fastSlice(arguments, 2));
+}
+
+i18n.translate = function(locale, key, args) {
     var translations = i18n.get(locale);
 
     if (translations === null) {
-        throw new Error("i18n(key[, locale]) no translations for " + locale + " locale");
+        throw new Error("i18n(key[, locale[, ...args]]) no translations for " + locale + " locale");
     }
     if (!isString(key)) {
-        throw new TypeError("i18n(key[, locale]) key must be a String");
+        throw new TypeError("i18n(key[, locale[, ...args]]) key must be a String");
     }
 
     if (flatMode === true) {
-        return translateFlat(key, translations, fastSlice(arguments, 2));
+        return translateFlat(key, translations, args);
     } else {
-        return translate(key, translations, fastSlice(arguments, 2));
+        return translate(key, translations, args);
     }
-}
+};
 
 i18n.setFlatMode = function(value) {
     flatMode = !!value;
