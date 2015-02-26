@@ -21,12 +21,12 @@
     "mocha": "^2.1.0"
   },
   "dependencies": {
-    "is_string": "nathanfaucett/is_string",
+    "define_property": "git://github.com/nathanfaucett/define_property",
+    "fast_slice": "nathanfaucett/fast_slice",
+    "format": "nathanfaucett/format",
+    "has": "git://github.com/nathanfaucett/has",
     "is_array": "nathanfaucett/is_array",
     "is_object": "nathanfaucett/is_object",
-    "format": "nathanfaucett/format",
-    "fast_slice": "nathanfaucett/fast_slice",
-    "mixin": "nathanfaucett/mixin"
+    "is_string": "nathanfaucett/is_string"
   }
 }
-
