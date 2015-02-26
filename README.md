@@ -9,7 +9,7 @@ i18n for the browser and node.js
 var i18n = require("i18n");
 
 
-i18n.set("en", {
+i18n.add("en", {
     home: {
         header: {
             value: "Header",
