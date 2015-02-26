@@ -66,9 +66,7 @@ i18n.add = function(locale, object) {
     var translations = translationCache[locale] || (translationCache[locale] = {}),
         key;
 
-    if (!isObject(object)) {
-        throw new TypeError("i18n.add(locale, object) object must be an Object");
-    } else {
+    if (isObject(object)) {
         for (key in object) {
             if (has(object, key)) {
                 if (has(translations, key)) {
@@ -78,6 +76,8 @@ i18n.add = function(locale, object) {
                 }
             }
         }
+    } else {
+        throw new TypeError("i18n.add(locale, object) object must be an Object");
     }
 };
 
