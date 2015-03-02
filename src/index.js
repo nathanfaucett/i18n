@@ -49,7 +49,7 @@ i18n.translate = function(locale, key, args) {
     }
 };
 
-i18n.setFlatMode = function(value) {
+i18n.flatMode = function(value) {
     flatMode = !!value;
 };
 
