@@ -68,14 +68,24 @@ function create(flatMode, throwMissingError) {
         throwMissingError = false;
     };
 
+    i18n.has = function(locale, key) {
+        if (has(translationCache[locale], key)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     i18n.add = function(locale, object) {
         var translations = translationCache[locale] || (translationCache[locale] = {}),
-            key;
+            localHas, key;
 
         if (isObject(object)) {
+            localHas = has;
+
             for (key in object) {
-                if (has(object, key)) {
-                    if (has(translations, key)) {
+                if (localHas(object, key)) {
+                    if (localHas(translations, key)) {
                         throw new TypeError("i18n.add(locale, object) cannot override " + locale + " translation with key " + key);
                     } else {
                         translations[key] = object[key];

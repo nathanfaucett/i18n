@@ -11,7 +11,7 @@
     "test": "npm run test-node",
     "test-node": "node ./test | ./node_modules/.bin/tap-spec",
     "test-node-raw": "node ./test",
-    "test-browser-local": "zuul --local 8080 --ui tape -- ./test"
+    "test-browser-local": "zuul --local 9999 --ui tape -- ./test"
   },
   "keywords": [
     "i18n",
@@ -21,12 +21,12 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "devDependencies": {
-      "grunt": "^0.4.5",
-      "grunt-contrib-jshint": "^0.11.3",
-      "grunt-jsbeautifier": "^0.2.10",
-      "tap-spec": "^4.1.0",
-      "tape": "^4.2.0",
-      "zuul": "^3.6.0"
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-jsbeautifier": "^0.2.10",
+    "tap-spec": "^4.1.0",
+    "tape": "^4.2.2",
+    "zuul": "^3.7.2"
   },
   "dependencies": {
     "define_property": "git://github.com/nathanfaucett/define_property.git",
