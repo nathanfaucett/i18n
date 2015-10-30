@@ -120,7 +120,7 @@ function create(flatMode, throwMissingError) {
         if (value == null || isObject(value)) {
             return missingTranslation(origKey);
         } else {
-            return args.length !== 0 ? format.args(value, args) : value;
+            return args.length !== 0 ? format.array(value, args) : value;
         }
     }
 
@@ -130,7 +130,7 @@ function create(flatMode, throwMissingError) {
         if (value == null || isObject(value)) {
             return missingTranslation(key);
         } else {
-            return args.length !== 0 ? format.args(value, args) : value;
+            return args.length !== 0 ? format.array(value, args) : value;
         }
     }
 
