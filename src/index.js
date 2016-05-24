@@ -1,7 +1,9 @@
-var isArray = require("is_array"),
+var isNull = require("is_null"),
+    isArray = require("is_array"),
     isString = require("is_string"),
     isObject = require("is_object"),
     format = require("format"),
+    flattenObject = require("flatten_object"),
     fastSlice = require("fast_slice"),
     has = require("has"),
     defineProperty = require("define_property");
@@ -24,14 +26,18 @@ if (!translationCache) {
 module.exports = create(false, false);
 
 
-function create(flatMode, throwMissingError) {
+function create(throwMissingError, throwOverrideError) {
 
-    flatMode = !!flatMode;
     throwMissingError = !!throwMissingError;
+    throwOverrideError = !!throwOverrideError;
 
 
     function i18n(locale, key) {
-        return i18n.translate(locale, key, fastSlice(arguments, 2));
+        return i18n.translate(
+            locale,
+            key,
+            arguments.length > 2 ? fastSlice(arguments, 2) : []
+        );
     }
 
     i18n.create = create;
@@ -39,33 +45,26 @@ function create(flatMode, throwMissingError) {
     i18n.translate = function(locale, key, args) {
         var translations = translationCache[locale] || null;
 
-        if (translations === null) {
-            throw new Error("i18n(key[, locale[, ...args]]) no translations for " + locale + " locale");
+        if (isNull(translations)) {
+            throw new Error(
+                "i18n(key[, locale[, ...args]]) no translations for " +
+                locale + " locale"
+            );
         }
         if (!isString(key)) {
-            throw new TypeError("i18n(key[, locale[, ...args]]) key must be a String");
+            throw new TypeError(
+                "i18n(key[, locale[, ...args]]) key must be a String"
+            );
         }
 
-        args = isArray(args) ? args : [];
-
-        if (flatMode === true) {
-            return translateFlat(key, translations, args);
-        } else {
-            return translate(key, translations, args);
-        }
-    };
-
-    i18n.flatMode = function(value) {
-        flatMode = !!value;
+        return translate(key, translations, isArray(args) ? args : []);
     };
 
     i18n.throwMissingError = function(value) {
         throwMissingError = !!value;
     };
-
-    i18n.reset = function() {
-        flatMode = false;
-        throwMissingError = false;
+    i18n.throwOverrideError = function(value) {
+        throwOverrideError = !!value;
     };
 
     i18n.has = function(locale, key) {
@@ -77,70 +76,55 @@ function create(flatMode, throwMissingError) {
     };
 
     i18n.add = function(locale, object) {
-        var translations = translationCache[locale] || (translationCache[locale] = {}),
-            localHas, key;
+        var translations = (
+                translationCache[locale] ||
+                (translationCache[locale] = {})
+            ),
+            localHas = has,
+            key, value;
 
         if (isObject(object)) {
-            localHas = has;
+            value = flattenObject(object);
 
-            for (key in object) {
-                if (localHas(object, key)) {
+            for (key in value) {
+                if (localHas(value, key)) {
                     if (localHas(translations, key)) {
-                        throw new TypeError("i18n.add(locale, object) cannot override " + locale + " translation with key " + key);
+                        if (throwOverrideError) {
+                            throw new Error(
+                                "i18n.add(locale, object) cannot override " +
+                                locale + " translation with key " + key
+                            );
+                        }
                     } else {
-                        translations[key] = object[key];
+                        translations[key] = value[key];
                     }
                 }
             }
         } else {
-            throw new TypeError("i18n.add(locale, object) object must be an Object");
+            throw new TypeError(
+                "i18n.add(locale, object) object must be an Object"
+            );
         }
     };
 
     function missingTranslation(key) {
         if (throwMissingError) {
-            throw new Error("i18n(locale, key) missing translation for key " + key);
+            throw new Error(
+                "i18n(locale, key) missing translation for key " + key
+            );
         } else {
             return "--" + key + "--";
         }
     }
 
     function translate(key, translations, args) {
-        var origKey = key,
-            keys = key.split("."),
-            length = keys.length - 1,
-            i = 0,
-            value = translations[keys[i]];
+        var value;
 
-
-        while (i++ < length) {
-            key = keys[i];
-
-            if (isObject(value)) {
-                value = value[key];
-
-                if (value == null) {
-                    return missingTranslation(origKey);
-                }
-            } else {
-                return missingTranslation(origKey);
-            }
-        }
-
-        if (value == null || isObject(value)) {
-            return missingTranslation(origKey);
-        } else {
+        if (has(translations, key)) {
+            value = translations[key];
             return args.length !== 0 ? format.array(value, args) : value;
-        }
-    }
-
-    function translateFlat(key, translations, args) {
-        var value = translations[key];
-
-        if (value == null || isObject(value)) {
+        } else {
             return missingTranslation(key);
-        } else {
-            return args.length !== 0 ? format.array(value, args) : value;
         }
     }
 

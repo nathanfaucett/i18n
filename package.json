@@ -29,10 +29,12 @@
     "zuul": "^3.7.2"
   },
   "dependencies": {
+    "flatten_object": "git://github.com/nathanfaucett/flatten_object.git",
     "define_property": "git://github.com/nathanfaucett/define_property.git",
     "fast_slice": "git://github.com/nathanfaucett/fast_slice.git",
     "format": "git://github.com/nathanfaucett/format.git",
     "has": "git://github.com/nathanfaucett/has.git",
+    "is_null": "git://github.com/nathanfaucett/is_null.git",
     "is_array": "git://github.com/nathanfaucett/is_array.git",
     "is_object": "git://github.com/nathanfaucett/is_object.git",
     "is_string": "git://github.com/nathanfaucett/is_string.git"
