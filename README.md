@@ -3,10 +3,8 @@ i18n
 
 i18n for the browser and node.js
 
-
-```javacript
-
-var i18n = require("i18n");
+```javascript
+var i18n = require("@nathanfaucett/i18n");
 
 
 i18n.add("en", {
@@ -27,5 +25,4 @@ i18n.add("en", {
 console.log(i18n("en", "home.header.date", new Date()));
 console.log(i18n("en", "home.header.date.missing")); // will throw an error
 console.log(i18n("en", "home.missing")); // will throw an error
-
 ```

@@ -1,12 +1,12 @@
-var isNull = require("is_null"),
-    isArray = require("is_array"),
-    isString = require("is_string"),
-    isObject = require("is_object"),
-    format = require("format"),
-    flattenObject = require("flatten_object"),
-    fastSlice = require("fast_slice"),
-    has = require("has"),
-    defineProperty = require("define_property");
+var isNull = require("@nathanfaucett/is_null"),
+    isArray = require("@nathanfaucett/is_array"),
+    isString = require("@nathanfaucett/is_string"),
+    isObject = require("@nathanfaucett/is_object"),
+    format = require("@nathanfaucett/format"),
+    flattenObject = require("@nathanfaucett/flatten_object"),
+    fastSlice = require("@nathanfaucett/fast_slice"),
+    has = require("@nathanfaucett/has"),
+    defineProperty = require("@nathanfaucett/define_property");
 
 
 var translationCache = global.__I18N_TRANSLATIONS__;
