@@ -1,6 +1,6 @@
 {
   "name": "@nathanfaucett/i18n",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "i18n for the browser and node.js",
   "repository": {
     "type": "git",

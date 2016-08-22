@@ -9,7 +9,8 @@ var isNull = require("@nathanfaucett/is_null"),
     defineProperty = require("@nathanfaucett/define_property");
 
 
-var translationCache = global.__I18N_TRANSLATIONS__;
+var EMPTY_ARRAY = [],
+    translationCache = global.__I18N_TRANSLATIONS__;
 
 
 if (!translationCache) {
@@ -36,7 +37,7 @@ function create(throwMissingError, throwOverrideError) {
         return i18n.translate(
             locale,
             key,
-            arguments.length > 2 ? fastSlice(arguments, 2) : []
+            arguments.length > 2 ? fastSlice(arguments, 2) : EMPTY_ARRAY
         );
     }
 
@@ -57,7 +58,7 @@ function create(throwMissingError, throwOverrideError) {
             );
         }
 
-        return translate(key, translations, isArray(args) ? args : []);
+        return translate(key, translations, isArray(args) ? args : EMPTY_ARRAY);
     };
 
     i18n.throwMissingError = function(value) {
