@@ -1,6 +1,6 @@
 {
   "name": "@nathanfaucett/i18n",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "i18n for the browser and node.js",
   "repository": {
     "type": "git",
@@ -30,10 +30,10 @@
   },
   "dependencies": {
     "@nathanfaucett/flatten_object": "^0.0.1",
-    "@nathanfaucett/define_property": "^0.0.1",
+    "@nathanfaucett/define_property": "^0.0.3",
     "@nathanfaucett/fast_slice": "^0.0.1",
-    "@nathanfaucett/format": "^0.0.1",
-    "@nathanfaucett/has": "^0.0.1",
+    "@nathanfaucett/format": "^0.0.2",
+    "@nathanfaucett/has": "^0.0.2",
     "@nathanfaucett/is_null": "^0.0.1",
     "@nathanfaucett/is_array": "^0.0.1",
     "@nathanfaucett/is_object": "^0.0.1",
